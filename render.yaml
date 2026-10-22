@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: student-management
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py migrate
+    startCommand: gunicorn mysite.wsgi:application
+    healthCheckPath: /myapp/login/
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: SECURE_SSL_REDIRECT
+        value: "True"
+      - key: SESSION_COOKIE_SECURE
+        value: "True"
+      - key: CSRF_COOKIE_SECURE
+        value: "True"
+      - key: SECURE_HSTS_SECONDS
+        value: "3600"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: student-management-db
+          property: connectionString
+
+databases:
+  - name: student-management-db
+    databaseName: student_management
+    user: student_management
+    plan: free

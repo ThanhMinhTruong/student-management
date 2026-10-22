@@ -1,0 +1,86 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Courses | Riverview University Canvas</title>
+  <link rel="stylesheet" href="{% static 'firstapp/dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'firstapp/courses.css' %}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="university-brand" href="{% url 'dashboard' %}" aria-label="Riverview University Canvas dashboard">
+      <span class="brand-seal" aria-hidden="true">RU</span>
+      <span class="brand-name">Riverview University<span>Canvas</span></span>
+    </a>
+    <div class="topbar-actions">
+      <a class="help-link" href="mailto:it-support@riverview.edu">Help</a>
+      <span class="user-name">{{ request.user.get_full_name|default:request.user.username }}</span>
+      <span class="user-avatar" aria-hidden="true">{{ request.user.username|first|upper }}</span>
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button class="logout-button" type="submit">Log out</button>
+      </form>
+    </div>
+  </header>
+
+  <div class="app-layout">
+    <aside class="global-nav" aria-label="Main navigation">
+      <a class="nav-item" href="{% url 'dashboard' %}"><span class="nav-symbol" aria-hidden="true">▦</span>Dashboard</a>
+      <a class="nav-item active" href="{% url 'courses' %}" aria-current="page"><span class="nav-symbol" aria-hidden="true">▤</span>Courses</a>
+      <a class="nav-item" href="{% url 'calendar' %}"><span class="nav-symbol" aria-hidden="true">▣</span>Calendar</a>
+      <div class="nav-spacer"></div>
+      <a class="nav-item support-link" href="mailto:it-support@riverview.edu"><span class="nav-symbol" aria-hidden="true">?</span>Support</a>
+    </aside>
+
+    <main class="dashboard-main courses-main">
+      <div class="page-heading">
+        <div>
+          <p class="term-label">FALL 2026 <span>·</span> STUDENT WORKSPACE</p>
+          <h1>My courses</h1>
+          <p class="welcome">Your classes, instructors, and meeting locations for this semester.</p>
+        </div>
+        <span class="term-select" aria-label="Current term">Fall 2026</span>
+      </div>
+
+      <section class="courses-section" aria-labelledby="courses-heading">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">CURRENT ENROLLMENT</p>
+            <h2 id="courses-heading">Active courses</h2>
+          </div>
+          <span class="item-count">{{ courses|length }} courses</span>
+        </div>
+
+        <div class="course-grid course-list">
+          {% for course in courses %}
+            <article class="course-card">
+              <div class="course-banner {{ course.accent }}">
+                <span class="course-code">{{ course.code }}</span>
+                <span class="course-monogram" aria-hidden="true">{{ course.code|slice:":3" }}</span>
+              </div>
+              <div class="course-info">
+                <p class="course-term">FALL 2026</p>
+                <h3>{{ course.name }}</h3>
+                <p class="course-instructor">{{ course.instructor }}</p>
+                <div class="course-details">
+                  <span class="detail-label">MEETING</span>
+                  <span>{{ course.schedule }}</span>
+                </div>
+                <div class="course-details">
+                  <span class="detail-label">LOCATION</span>
+                  <span>{{ course.room }}</span>
+                </div>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      </section>
+
+      <footer class="dashboard-footer"><span>Riverview University Canvas</span><a href="mailto:it-support@riverview.edu">Need help? Contact IT support</a></footer>
+    </main>
+  </div>
+</body>
+</html>
