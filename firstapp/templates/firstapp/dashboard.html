@@ -5,17 +5,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <title>Dashboard | Riverview University Canvas</title>
+  <title>Student Hub | Troy / HUST Resources</title>
   <link rel="stylesheet" href="{% static 'firstapp/dashboard.css' %}">
 </head>
 <body>
   <header class="topbar">
-    <a class="university-brand" href="{% url 'home' %}" aria-label="Riverview University Canvas dashboard">
-      <span class="brand-seal" aria-hidden="true">RU</span>
-      <span class="brand-name">Riverview University<span>Canvas</span></span>
+    <a class="university-brand" href="{% url 'home' %}" aria-label="Troy / HUST student resource hub">
+      <span class="brand-seal" aria-hidden="true">TH</span>
+      <span class="brand-name">Troy / HUST<span>Student resource hub</span></span>
     </a>
     <div class="topbar-actions">
-      <a class="help-link" href="mailto:it-support@riverview.edu">Help</a>
+      <a class="help-link" href="https://github.com/lcvp/troy-hust-university-resources" target="_blank" rel="noopener noreferrer">Resource repo</a>
       <span class="user-name">{{ request.user.get_full_name|default:request.user.username }}</span>
       <span class="user-avatar" aria-hidden="true">{{ request.user.username|first|upper }}</span>
       <form method="post" action="{% url 'logout' %}">
@@ -31,27 +31,27 @@
       <a class="nav-item" href="{% url 'courses' %}"><span class="nav-symbol" aria-hidden="true">▤</span>Courses</a>
       <a class="nav-item" href="{% url 'calendar' %}"><span class="nav-symbol" aria-hidden="true">▣</span>Calendar</a>
       <div class="nav-spacer"></div>
-      <a class="nav-item support-link" href="mailto:it-support@riverview.edu"><span class="nav-symbol" aria-hidden="true">?</span>Support</a>
+      <a class="nav-item support-link" href="https://github.com/lcvp/troy-hust-university-resources/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer"><span class="nav-symbol" aria-hidden="true">?</span>Contribute</a>
     </aside>
 
     <main class="dashboard-main">
       <div class="page-heading">
         <div>
-          <p class="term-label">FALL 2026 <span>·</span> STUDENT WORKSPACE</p>
-          <h1>Dashboard</h1>
-          <p class="welcome">Welcome back, {{ request.user.first_name|default:request.user.username }}. Here’s what’s happening in your courses.</p>
+          <p class="term-label">TROY UNIVERSITY <span>·</span> HUST</p>
+          <h1>Student resource hub</h1>
+          <p class="welcome">Welcome back, {{ request.user.first_name|default:request.user.username }}. Explore the curriculum and community-maintained course materials.</p>
         </div>
-        <a class="term-select" href="#courses">Fall 2026 <span aria-hidden="true">⌄</span></a>
+        <a class="term-select" href="https://github.com/lcvp/troy-hust-university-resources" target="_blank" rel="noopener noreferrer">Source repository <span aria-hidden="true">↗</span></a>
       </div>
 
       <div class="dashboard-grid">
         <section class="courses-section" id="courses" aria-labelledby="courses-heading">
           <div class="section-heading">
             <div>
-              <p class="section-kicker">YOUR LEARNING</p>
-              <h2 id="courses-heading">Courses</h2>
+              <p class="section-kicker">CURRICULUM INDEX</p>
+              <h2 id="courses-heading">Start with these courses</h2>
             </div>
-            <span class="item-count">{{ courses|length }} active</span>
+            <a class="view-calendar" href="{% url 'courses' %}">All {{ course_count }} courses</a>
           </div>
           <div class="course-grid">
             {% for course in courses %}
@@ -61,40 +61,38 @@
                   <span class="course-monogram" aria-hidden="true">{{ course.code|slice:":3" }}</span>
                 </div>
                 <div class="course-info">
+                  <p class="course-term">{{ course.category }} · {{ course.credits }} credits</p>
                   <h3>{{ course.name }}</h3>
-                  <p>{{ course.instructor }}</p>
-                  <div class="course-meta"><span>{{ course.room }}</span><span>Fall 2026</span></div>
+                  <div class="course-meta"><span>Prerequisites: {{ course.prerequisites }}</span><span>{{ course.code }}</span></div>
+                  <a class="course-resource-link" href="{{ course.resources_url }}" target="_blank" rel="noopener noreferrer">Open course folder <span aria-hidden="true">↗</span></a>
                 </div>
               </article>
             {% endfor %}
           </div>
         </section>
 
-        <aside class="upcoming-section" id="upcoming" aria-labelledby="upcoming-heading">
+        <aside class="upcoming-section resource-section" id="upcoming" aria-labelledby="upcoming-heading">
           <div class="section-heading upcoming-heading">
             <div>
-              <p class="section-kicker">KEEP ON TRACK</p>
-              <h2 id="upcoming-heading">Coming up</h2>
+              <p class="section-kicker">SHARED STUDY MATERIALS</p>
+              <h2 id="upcoming-heading">Resource library</h2>
             </div>
-            <a class="view-calendar" href="{% url 'calendar' %}">Calendar</a>
+            <a class="view-calendar" href="{% url 'calendar' %}">Study planner</a>
           </div>
-          <div class="assignment-list">
-            {% for assignment in assignments %}
-              <article class="assignment">
-                <div class="date-block"><span>{{ assignment.month }}</span><strong>{{ assignment.day }}</strong></div>
-                <div class="assignment-copy">
-                  <p class="assignment-course">{{ assignment.course }}</p>
-                  <h3>{{ assignment.title }}</h3>
-                  <p class="due-time">Due {{ assignment.time }}</p>
-                </div>
+          <div class="resource-list">
+            {% for resource in resource_links %}
+              <article class="resource-item">
+                <h3>{{ resource.title }}</h3>
+                <p>{{ resource.description }}</p>
+                <a href="{{ resource.url }}" target="_blank" rel="noopener noreferrer">{{ resource.label }} <span aria-hidden="true">↗</span></a>
               </article>
             {% endfor %}
           </div>
-          <p class="assignment-note">Showing your next 3 deadlines</p>
+          <p class="assignment-note">Independent student-maintained links. Verify course details with your program.</p>
         </aside>
       </div>
 
-      <footer class="dashboard-footer"><span>Riverview University Canvas</span><a href="mailto:it-support@riverview.edu">Need help? Contact IT support</a></footer>
+      <footer class="dashboard-footer"><span>Independent student resource hub · Troy / HUST</span><a href="https://github.com/lcvp/troy-hust-university-resources" target="_blank" rel="noopener noreferrer">Open source repository</a></footer>
     </main>
   </div>
 </body>

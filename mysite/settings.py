@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -89,7 +90,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-database_url = os.environ.get("DATABASE_URL")
+database_url = os.environ.get("DATABASE_URL", "").strip()
 if database_url:
     import dj_database_url
 
@@ -100,13 +101,17 @@ if database_url:
             ssl_require=not DEBUG,
         )
     }
-else:
+elif DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+else:
+    raise ImproperlyConfigured(
+        "DATABASE_URL must be set when DEBUG is False. Link a Render PostgreSQL database to this service."
+    )
 
 
 # Password validation

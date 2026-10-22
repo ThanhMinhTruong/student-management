@@ -85,6 +85,14 @@ a { color: inherit; }
 .dashboard-footer { display: flex; justify-content: space-between; gap: 16px; margin-top: 34px; padding-top: 17px; border-top: 1px solid var(--line); color: #7b8389; font-size: 10px; }
 .dashboard-footer a { color: #626b72; text-decoration: none; }
 .dashboard-footer a:hover { color: var(--canvas-red); text-decoration: underline; }
+.resource-list { display: grid; gap: 0; }
+.resource-item { padding: 15px 0; border-bottom: 1px solid #eceff1; }
+.resource-item:first-child { padding-top: 12px; }
+.resource-item h3 { margin: 0; font-size: 12px; font-weight: 700; }
+.resource-item p { margin: 6px 0 9px; color: var(--muted); font-size: 10px; line-height: 1.5; }
+.resource-item a { color: var(--canvas-red); font-size: 10px; font-weight: 700; text-decoration: none; }
+.resource-item a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.resource-section .assignment-note { line-height: 1.5; }
 
 @media (max-width: 1080px) {
   .app-layout { grid-template-columns: 175px minmax(0, 1fr); }

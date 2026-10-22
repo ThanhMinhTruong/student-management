@@ -5,17 +5,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <title>Calendar | Riverview University Canvas</title>
+  <title>Study Planner | Troy / HUST Student Hub</title>
   <link rel="stylesheet" href="{% static 'firstapp/calendar.css' %}">
 </head>
 <body>
   <header class="topbar">
-    <a class="university-brand" href="{% url 'dashboard' %}" aria-label="Riverview University Canvas dashboard">
-      <span class="brand-seal" aria-hidden="true">RU</span>
-      <span class="brand-name">Riverview University<span>Canvas</span></span>
+    <a class="university-brand" href="{% url 'dashboard' %}" aria-label="Troy / HUST student resource hub">
+      <span class="brand-seal" aria-hidden="true">TH</span>
+      <span class="brand-name">Troy / HUST<span>Student resource hub</span></span>
     </a>
     <div class="topbar-actions">
-      <a class="help-link" href="mailto:it-support@riverview.edu">Help</a>
+      <a class="help-link" href="https://github.com/lcvp/troy-hust-university-resources" target="_blank" rel="noopener noreferrer">Resource repo</a>
       <span class="user-name">{{ request.user.get_full_name|default:request.user.username }}</span>
       <span class="user-avatar" aria-hidden="true">{{ request.user.username|first|upper }}</span>
       <form method="post" action="{% url 'logout' %}">
@@ -31,23 +31,23 @@
       <a class="nav-item" href="{% url 'courses' %}"><span class="nav-symbol" aria-hidden="true">▤</span>Courses</a>
       <a class="nav-item active" href="{% url 'calendar' %}" aria-current="page"><span class="nav-symbol" aria-hidden="true">▣</span>Calendar</a>
       <div class="nav-spacer"></div>
-      <a class="nav-item support-link" href="mailto:it-support@riverview.edu"><span class="nav-symbol" aria-hidden="true">?</span>Support</a>
+      <a class="nav-item support-link" href="https://github.com/lcvp/troy-hust-university-resources/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer"><span class="nav-symbol" aria-hidden="true">?</span>Contribute</a>
     </aside>
 
     <main class="calendar-main">
       <div class="page-heading">
         <div>
-          <p class="term-label">FALL 2026 <span>·</span> STUDENT WORKSPACE</p>
-          <h1>Calendar</h1>
-          <p class="welcome">Keep track of your course deadlines and upcoming work.</p>
+          <p class="term-label">TROY UNIVERSITY <span>·</span> HUST</p>
+          <h1>Study planner</h1>
+          <p class="welcome">Use this month view to plan around your course materials.</p>
         </div>
-        <a class="today-link" href="{% url 'calendar' %}?month=2026-10">October 2026</a>
+        <span class="today-link">{{ month_name }}</span>
       </div>
 
       <section class="calendar-panel" aria-labelledby="month-heading">
         <div class="calendar-toolbar">
           <div>
-            <p class="section-kicker">COURSE SCHEDULE</p>
+            <p class="section-kicker">PERSONAL PLANNING</p>
             <h2 id="month-heading">{{ month_name }}</h2>
           </div>
           <nav class="month-controls" aria-label="Calendar month">
@@ -84,14 +84,14 @@
           {% endfor %}
         </div>
 
-        <div class="calendar-legend" aria-label="Course color key">
-          <span><i class="legend-dot fern"></i>BIO 214</span>
-          <span><i class="legend-dot clay"></i>HIST 308</span>
-          <span><i class="legend-dot ocean"></i>STAT 201</span>
+        <div class="calendar-notice">
+          <strong>No published deadlines</strong>
+          <p>The public resource repository contains course materials, not a verified deadline feed. Check each course's syllabus and module files for due dates.</p>
+          <a href="https://github.com/lcvp/troy-hust-university-resources" target="_blank" rel="noopener noreferrer">Browse course resources</a>
         </div>
       </section>
 
-      <footer class="calendar-footer"><span>{{ deadline_count }} deadlines this month</span><a href="mailto:it-support@riverview.edu">Need help? Contact IT support</a></footer>
+      <footer class="calendar-footer"><span>Independent student resource hub · Troy / HUST</span><a href="https://github.com/lcvp/troy-hust-university-resources" target="_blank" rel="noopener noreferrer">Open source repository</a></footer>
     </main>
   </div>
 </body>

@@ -5,16 +5,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <title>Canvas | Riverview University</title>
+  <title>Sign in | Troy / HUST Student Hub</title>
   <link rel="stylesheet" href="{% static 'firstapp/login.css' %}">
 </head>
 <body>
   <header class="site-header">
-    <a class="university-brand" href="/" aria-label="Riverview University Canvas home">
-      <span class="brand-seal" aria-hidden="true">RU</span>
-      <span class="brand-name">Riverview University<span>Canvas Learning Management System</span></span>
+    <a class="university-brand" href="/" aria-label="Troy / HUST student resource hub">
+      <span class="brand-seal" aria-hidden="true">TH</span>
+      <span class="brand-name">Troy / HUST<span>Independent student resource hub</span></span>
     </a>
-    <a class="header-help" href="mailto:it-support@riverview.edu">IT help</a>
+    <a class="header-help" href="https://github.com/lcvp/troy-hust-university-resources" target="_blank" rel="noopener noreferrer">Resource repo</a>
   </header>
 
   <main class="page-layout">
@@ -22,18 +22,18 @@
       <img class="campus-photo" src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&amp;fit=crop&amp;w=1500&amp;q=85" alt="University campus building framed by trees">
       <div class="photo-shade" aria-hidden="true"></div>
       <div class="campus-copy">
-        <p class="overline">Riverview University <span>/</span> Canvas</p>
-        <h1 id="campus-heading">Learning happens everywhere.</h1>
-        <p>Find your courses, connect with your instructors, and keep your semester moving.</p>
+        <p class="overline">Troy University <span>/</span> HUST</p>
+        <h1 id="campus-heading">Course knowledge, shared.</h1>
+        <p>Sign in to browse the Troy/HUST curriculum and student-maintained course resources.</p>
       </div>
-      <p class="campus-caption">Your campus, wherever you are.</p>
+      <p class="campus-caption">Independent student resource hub</p>
     </section>
 
     <section class="login-panel" aria-labelledby="login-heading">
       <div class="login-content">
-        <div class="canvas-label"><span class="canvas-dot" aria-hidden="true"></span> CANVAS LMS</div>
-        <h2 id="login-heading">Sign in to Canvas</h2>
-        <p class="intro">Use your university account to continue.</p>
+        <div class="canvas-label"><span class="canvas-dot" aria-hidden="true"></span> TROY / HUST</div>
+        <h2 id="login-heading">Sign in</h2>
+        <p class="intro">Use your student hub account to continue.</p>
 
         {% if form.errors %}
           <p class="error" role="alert">We couldn't sign you in with those details. Check your username and password, then try again.</p>
@@ -47,7 +47,7 @@
             <input id="id_username" name="username" type="text" autocomplete="username" placeholder="Enter your username" required autofocus>
           </div>
           <div class="field">
-            <div class="label-row"><label for="id_password">Password</label><a href="mailto:it-support@riverview.edu">Forgot password?</a></div>
+            <div class="label-row"><label for="id_password">Password</label></div>
             <input id="id_password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
           </div>
           <button class="submit-button" type="submit">Log in</button>
@@ -57,16 +57,16 @@
 
         <div class="login-help">
           <span class="help-icon" aria-hidden="true">?</span>
-          <p>Having trouble accessing your account? <a href="mailto:it-support@riverview.edu">Contact IT support</a>.</p>
+          <p>Looking for course materials? <a href="https://github.com/lcvp/troy-hust-university-resources" target="_blank" rel="noopener noreferrer">Browse the public resource repository</a>.</p>
         </div>
       </div>
-      <footer class="login-footer">Riverview University <span aria-hidden="true">·</span> Canvas</footer>
+      <footer class="login-footer">Independent student resource hub <span aria-hidden="true">·</span> Troy / HUST</footer>
     </section>
   </main>
 
   <footer class="site-footer">
-    <span>© 2026 Riverview University</span>
-    <nav aria-label="Footer links"><a href="mailto:it-support@riverview.edu">Help and support</a><a href="#accessibility">Accessibility</a></nav>
+    <span>Student-maintained resources · Troy / HUST</span>
+    <nav aria-label="Footer links"><a href="https://github.com/lcvp/troy-hust-university-resources/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contribute</a><a href="https://github.com/lcvp/troy-hust-university-resources" target="_blank" rel="noopener noreferrer">Source</a></nav>
   </footer>
 </body>
 </html>

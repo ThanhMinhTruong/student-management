@@ -60,8 +60,9 @@ class CanvasDashboardTests(TestCase):
 		response = self.client.get(reverse("dashboard"))
 
 		self.assertEqual(response.status_code, 200)
-		self.assertContains(response, "Ecology &amp; Evolution")
+		self.assertContains(response, "The University Experience")
 		self.assertContains(response, "Welcome back, Casey")
+		self.assertContains(response, "Program course plan")
 
 	def test_calendar_requires_authentication(self):
 		response = self.client.get(reverse("calendar"))
@@ -77,8 +78,8 @@ class CanvasDashboardTests(TestCase):
 
 		self.assertEqual(response.status_code, 200)
 		self.assertContains(response, "October 2026")
-		self.assertContains(response, "Problem Set 6")
-		self.assertContains(response, "Field observations journal")
+		self.assertContains(response, "No published deadlines")
+		self.assertContains(response, "course materials")
 
 	def test_courses_requires_authentication(self):
 		response = self.client.get(reverse("courses"))
@@ -93,5 +94,6 @@ class CanvasDashboardTests(TestCase):
 		response = self.client.get(reverse("courses"))
 
 		self.assertEqual(response.status_code, 200)
-		self.assertContains(response, "Ecology &amp; Evolution")
-		self.assertContains(response, "Statistics for Research")
+		self.assertContains(response, "Computer Science I")
+		self.assertContains(response, "Data Structures")
+		self.assertContains(response, "lcvp/troy-hust-university-resources/tree/main/CS-2250")
