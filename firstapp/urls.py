@@ -8,6 +8,7 @@ urlpatterns = [
     path("calendar/", views.calendar_view, name="calendar"),
     path("courses/", views.courses_view, name="courses"),
     path("login/", views.AppLoginView.as_view(), name="login"),
+    path("signup/", views.signup, name="signup"),
     path("logout/", LogoutView.as_view(next_page="login"), name="logout"),
 ]
 

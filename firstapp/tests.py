@@ -20,6 +20,33 @@ class CanvasDashboardTests(TestCase):
 
 		self.assertRedirects(response, reverse("dashboard"))
 
+	def test_signup_creates_and_logs_in_user(self):
+		response = self.client.post(reverse("signup"), {
+			"username": "newstudent",
+			"password1": "A-strong-password-9274",
+			"password2": "A-strong-password-9274",
+		})
+
+		self.assertRedirects(response, reverse("dashboard"))
+		self.assertTrue(
+			get_user_model().objects.filter(username="newstudent").exists()
+		)
+		dashboard = self.client.get(reverse("dashboard"))
+		self.assertEqual(dashboard.status_code, 200)
+
+	def test_signup_rejects_mismatched_passwords(self):
+		response = self.client.post(reverse("signup"), {
+			"username": "newstudent",
+			"password1": "A-strong-password-9274",
+			"password2": "A-different-password-9274",
+		})
+
+		self.assertEqual(response.status_code, 200)
+		self.assertContains(response, "The two password fields")
+		self.assertFalse(
+			get_user_model().objects.filter(username="newstudent").exists()
+		)
+
 	def test_dashboard_requires_authentication(self):
 		response = self.client.get(reverse("dashboard"))
 

@@ -1,5 +1,7 @@
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login as auth_login
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect, render
 from calendar import monthcalendar
 from datetime import date, datetime, timedelta
@@ -44,6 +46,19 @@ def home(request):
     if request.user.is_authenticated:
         return redirect("dashboard")
     return redirect("login")
+
+
+def signup(request):
+    if request.user.is_authenticated:
+        return redirect("dashboard")
+
+    form = UserCreationForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        user = form.save()
+        auth_login(request, user)
+        return redirect("dashboard")
+
+    return render(request, "firstapp/signup.html", {"form": form})
 
 
 @login_required(login_url="login")

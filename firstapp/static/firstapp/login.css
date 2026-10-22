@@ -133,6 +133,8 @@ a:hover { color: var(--red-dark); }
 }
 .submit-button:hover { background: var(--red-dark); }
 .submit-button:active { transform: translateY(1px); }
+  .signup-prompt { margin: 18px 0 0; color: var(--muted); font-size: 12px; text-align: center; }
+  .signup-prompt a { color: var(--red); font-weight: 700; }
 .error { margin: 0 0 20px; padding: 12px 13px; border-left: 3px solid #b33a35; color: #812d29; background: #fff2f0; font-size: 13px; line-height: 1.5; }
 .login-help { display: flex; align-items: flex-start; gap: 10px; margin-top: 26px; padding-top: 20px; border-top: 1px solid #e8ebed; }
 .help-icon { width: 20px; height: 20px; flex: 0 0 20px; display: grid; place-items: center; border: 1px solid #aab1b5; border-radius: 50%; color: #5c666d; font-size: 12px; font-weight: 700; }

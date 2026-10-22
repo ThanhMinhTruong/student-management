@@ -1,0 +1,71 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Create account | Riverview University Canvas</title>
+  <link rel="stylesheet" href="{% static 'firstapp/login.css' %}">
+  <link rel="stylesheet" href="{% static 'firstapp/signup.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <a class="university-brand" href="{% url 'home' %}" aria-label="Riverview University Canvas home">
+      <span class="brand-seal" aria-hidden="true">RU</span>
+      <span class="brand-name">Riverview University<span>Canvas Learning Management System</span></span>
+    </a>
+    <a class="header-help" href="mailto:it-support@riverview.edu">IT help</a>
+  </header>
+
+  <main class="page-layout signup-layout">
+    <section class="campus-panel" aria-labelledby="campus-heading">
+      <img class="campus-photo" src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&amp;fit=crop&amp;w=1500&amp;q=85" alt="University campus building framed by trees">
+      <div class="photo-shade" aria-hidden="true"></div>
+      <div class="campus-copy">
+        <p class="overline">Riverview University <span>/</span> Canvas</p>
+        <h1 id="campus-heading">Your next chapter starts here.</h1>
+        <p>Create an account to access your courses and keep your semester organized.</p>
+      </div>
+      <p class="campus-caption">Your campus, wherever you are.</p>
+    </section>
+
+    <section class="login-panel" aria-labelledby="signup-heading">
+      <div class="login-content">
+        <div class="canvas-label"><span class="canvas-dot" aria-hidden="true"></span> CANVAS LMS</div>
+        <h2 id="signup-heading">Create your account</h2>
+        <p class="intro">Choose a username and a secure password.</p>
+
+        {% if form.errors %}
+          <p class="error" role="alert">Please review the highlighted fields and try again.</p>
+        {% endif %}
+
+        <form method="post">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="field{% if field.errors %} field-invalid{% endif %}">
+              <label for="{{ field.id_for_label }}">{% if field.name == "username" %}University username{% else %}{{ field.label }}{% endif %}</label>
+              {{ field }}
+              {% if field.help_text %}<div class="field-help">{{ field.help_text|safe }}</div>{% endif %}
+              {% for error in field.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+            </div>
+          {% endfor %}
+          <button class="submit-button" type="submit">Create account</button>
+        </form>
+
+        <p class="signup-prompt">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+        <div class="login-help">
+          <span class="help-icon" aria-hidden="true">?</span>
+          <p>Need help creating an account? <a href="mailto:it-support@riverview.edu">Contact IT support</a>.</p>
+        </div>
+      </div>
+      <footer class="login-footer">Riverview University <span aria-hidden="true">·</span> Canvas</footer>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© 2026 Riverview University</span>
+    <nav aria-label="Footer links"><a href="mailto:it-support@riverview.edu">Help and support</a><a href="#accessibility">Accessibility</a></nav>
+  </footer>
+</body>
+</html>
