@@ -75,3 +75,5 @@ Do not commit database URLs, passwords, or other secrets. Keep `DEBUG=False` in 
 - Django 5.2
 - PostgreSQL on Render; SQLite for local development
 - Gunicorn and WhiteNoise
+
+- Site:https://student-management-wq1b.onrender.com
