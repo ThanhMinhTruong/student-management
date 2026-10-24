@@ -11,8 +11,30 @@
 .detail-label { color: #838b90; font-size: 8px; font-weight: 750; letter-spacing: 0.07em; }
 .course-resource-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 15px; color: var(--canvas-red); font-size: 11px; font-weight: 700; text-decoration: none; }
 .course-resource-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+.courses-main .section-heading { margin-bottom: 16px; }
+.personal-course-section { margin: 0 0 34px; padding: 22px; border: 1px solid #e0e4e7; border-radius: 3px; background: #fff; }
+.personal-course-form { display: grid; grid-template-columns: repeat(5, minmax(100px, 1fr)) auto; align-items: end; gap: 12px; }
+.form-field label, .schedule-form label { display: grid; gap: 6px; color: #626b71; font-size: 10px; font-weight: 700; }
+.form-field input { width: 100%; min-width: 0; height: 37px; padding: 0 10px; border: 1px solid #d9dfe2; border-radius: 3px; color: #272b30; background: #fff; font: inherit; font-size: 12px; }
+.form-field input:focus, .schedule-form input:focus { outline: 2px solid #d9a4ad; outline-offset: 1px; border-color: #a51f35; }
+.add-course-button, .schedule-form button { min-height: 37px; padding: 0 14px; border: 1px solid #a51f35; border-radius: 3px; color: #fff; background: #a51f35; cursor: pointer; font: inherit; font-size: 11px; font-weight: 700; }
+.add-course-button:hover, .schedule-form button:hover { background: #86182b; }
+.field-error, .schedule-errors { color: #a51f35; font-size: 10px; }
+.course-messages p { margin: 0 0 14px; padding: 10px 12px; border-left: 3px solid #386a58; color: #294b3e; background: #edf4f0; font-size: 12px; }
+.course-messages p.error { border-color: #a51f35; color: #8c1a2d; background: #f9edef; }
+.custom-course-label { display: inline-block; margin-top: 15px; color: #687178; font-size: 10px; font-weight: 650; }
+.schedule-details { margin-top: 12px; border-top: 1px solid #eceff1; }
+.schedule-details summary { padding: 11px 0 3px; color: #a51f35; cursor: pointer; font-size: 11px; font-weight: 700; }
+.schedule-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; padding-top: 12px; }
+.schedule-form input { width: 100%; min-width: 0; height: 34px; padding: 0 8px; border: 1px solid #d9dfe2; border-radius: 3px; font: inherit; font-size: 11px; }
+.schedule-form .schedule-description, .schedule-form button, .schedule-errors { grid-column: 1 / -1; }
+.schedule-errors { display: grid; gap: 3px; }
+.schedule-form button { justify-self: start; }
 
 @media (max-width: 1150px) {
+  .personal-course-form { grid-template-columns: repeat(3, minmax(100px, 1fr)); }
+  .form-wide { grid-column: span 2; }
+  .add-course-button { justify-self: start; }
   .courses-main .course-card { grid-template-columns: 1fr; }
   .courses-main .course-banner { min-height: 120px; }
   .courses-main .course-info h3 { min-height: 0; }
@@ -27,9 +49,14 @@
   .courses-main .course-info { padding: 14px 13px 12px; }
   .courses-main .course-info h3 { font-size: 14px; }
   .courses-main .course-monogram { font-size: 30px; }
+  .personal-course-section { padding: 15px; }
+  .personal-course-form { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .form-wide { grid-column: auto; }
 }
 
 @media (max-width: 430px) {
+  .personal-course-form { grid-template-columns: 1fr; }
+  .add-course-button { width: 100%; }
   .courses-main .course-card { grid-template-columns: 1fr; }
   .courses-main .course-banner { min-height: 95px; }
   .courses-main .course-info { padding: 14px; }

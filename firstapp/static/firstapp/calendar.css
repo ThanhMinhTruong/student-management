@@ -59,15 +59,23 @@ a { color: inherit; }
 .calendar-event.fern { border-color: #386a58; background: #edf4f0; }
 .calendar-event.clay { border-color: #a35643; background: #f7efed; }
 .calendar-event.ocean { border-color: #326a79; background: #edf4f6; }
+.calendar-event.gold { border-color: #98721e; background: #f8f3e7; }
+.calendar-event { position: relative; padding-right: 20px; }
 .event-course, .event-title, .event-time { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .event-course { color: #4e585e; font-size: 8px; font-weight: 750; letter-spacing: 0.05em; }
 .event-title { margin-top: 3px; color: #293036; font-size: 10px; font-weight: 650; }
 .event-time { margin-top: 3px; color: #6f787e; font-size: 9px; }
+.event-description { display: block; overflow: hidden; margin-top: 3px; color: #6f787e; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+.delete-event-form { position: absolute; top: 3px; right: 3px; }
+.delete-event-form button { width: 17px; height: 17px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 2px; color: #59636a; background: transparent; cursor: pointer; font: inherit; font-size: 15px; line-height: 1; }
+.delete-event-form button:hover { color: #a51f35; background: #fff; }
 .calendar-notice { padding: 17px 20px; border-top: 1px solid var(--line); background: #fafbfb; }
 .calendar-notice strong { font-size: 11px; }
 .calendar-notice p { max-width: 720px; margin: 6px 0 8px; color: var(--muted); font-size: 11px; line-height: 1.55; }
 .calendar-notice a { color: var(--canvas-red); font-size: 10px; font-weight: 700; text-decoration: none; }
 .calendar-notice a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.calendar-messages p { margin: 0 0 14px; padding: 10px 12px; border-left: 3px solid #386a58; color: #294b3e; background: #edf4f0; font-size: 12px; }
+.calendar-messages p.error { border-color: #a51f35; color: #8c1a2d; background: #f9edef; }
 .calendar-footer { display: flex; justify-content: space-between; gap: 16px; margin-top: 18px; color: #7b8389; font-size: 10px; }
 .calendar-footer a { color: #626b72; text-decoration: none; }
 .calendar-footer a:hover { color: var(--canvas-red); text-decoration: underline; }
@@ -106,6 +114,7 @@ a { color: inherit; }
   .event-course { font-size: 7px; }
   .event-title { font-size: 8px; }
   .event-time { display: none; }
+  .event-description { display: none; }
   .calendar-notice { padding: 13px; }
   .calendar-footer { flex-direction: column; gap: 8px; }
 }

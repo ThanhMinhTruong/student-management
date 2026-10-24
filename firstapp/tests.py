@@ -2,6 +2,8 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
+from .models import CalendarEvent, PersonalCourse
+
 
 class CanvasDashboardTests(TestCase):
 	def setUp(self):
@@ -78,8 +80,8 @@ class CanvasDashboardTests(TestCase):
 
 		self.assertEqual(response.status_code, 200)
 		self.assertContains(response, "October 2026")
-		self.assertContains(response, "No published deadlines")
-		self.assertContains(response, "course materials")
+		self.assertContains(response, "No events this month")
+		self.assertContains(response, "Schedule a course session")
 
 	def test_courses_requires_authentication(self):
 		response = self.client.get(reverse("courses"))
@@ -97,3 +99,62 @@ class CanvasDashboardTests(TestCase):
 		self.assertContains(response, "Computer Science I")
 		self.assertContains(response, "Data Structures")
 		self.assertContains(response, "lcvp/troy-hust-university-resources/tree/main/CS-2250")
+
+	def test_custom_course_can_be_added_and_scheduled(self):
+		self.client.force_login(self.user)
+		response = self.client.post(reverse("courses"), {
+			"action": "create_course",
+			"code": "math-2200",
+			"name": "Linear Algebra",
+			"category": "Mathematics",
+			"credits": 3,
+			"prerequisites": "MTH-1112",
+		})
+
+		self.assertRedirects(response, reverse("courses"))
+		course = PersonalCourse.objects.get(user=self.user, code="MATH-2200")
+		response = self.client.post(reverse("courses"), {
+			"action": "schedule_event",
+			"course_key": f"custom-{course.pk}",
+			"title": "Linear algebra review",
+			"event_date": "2026-10-24",
+			"start_time": "14:00",
+			"end_time": "15:30",
+			"description": "Chapter 2",
+		})
+
+		self.assertRedirects(response, reverse("calendar"))
+		event = CalendarEvent.objects.get(user=self.user)
+		self.assertEqual(event.course_name, "Linear Algebra")
+		calendar = self.client.get(reverse("calendar"), {"month": "2026-10"})
+		self.assertContains(calendar, "Linear algebra review")
+		self.assertContains(calendar, "2:00 PM")
+
+	def test_calendar_events_are_private_and_can_be_removed(self):
+		self.client.force_login(self.user)
+		event = CalendarEvent.objects.create(
+			user=self.user,
+			course_code="CS-2250",
+			course_name="Computer Science I",
+			title="Project work",
+			event_date="2026-10-24",
+		)
+		other_user = get_user_model().objects.create_user(
+			username="anotherstudent", password=self.password
+		)
+		CalendarEvent.objects.create(
+			user=other_user,
+			course_code="CS-2250",
+			course_name="Computer Science I",
+			title="Private event",
+			event_date="2026-10-24",
+		)
+
+		calendar = self.client.get(reverse("calendar"), {"month": "2026-10"})
+		self.assertContains(calendar, "Project work")
+		self.assertNotContains(calendar, "Private event")
+		response = self.client.post(
+			reverse("delete_calendar_event", args=[event.pk])
+		)
+		self.assertRedirects(response, "/myapp/calendar/?month=2026-10")
+		self.assertFalse(CalendarEvent.objects.filter(pk=event.pk).exists())

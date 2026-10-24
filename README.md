@@ -1,7 +1,5 @@
 # Troy / HUST Student Resource Hub
 
-Site:https://student-management-wq1b.onrender.com
-
 An independent student resource hub for the Troy University program at Hanoi University of Science and Technology (HUST). It provides sign-in, a curated course catalog, links to student-maintained course materials, and a monthly study planner.
 
 This is not an official university service or the Canvas LMS. Course information and materials are maintained by the community. Verify course offerings, prerequisites, and deadlines with the program and current syllabi.
@@ -14,8 +12,9 @@ The course names and links in this app are based on the public [Troy University 
 
 - Account registration, login, and logout using Django authentication.
 - Authenticated dashboard with selected courses and links to program resources.
-- Course catalog with credits, categories, prerequisites, and links to each course folder.
-- Monthly study planner. The public repository does not provide a verified assignment deadline feed, so the planner does not invent deadlines.
+- Course catalog with credits, categories, prerequisites, and links to each course folder, plus account-specific custom courses.
+- Schedule dated course sessions with optional times and notes; each user's events appear on their monthly calendar.
+- The public repository does not provide a verified assignment deadline feed, so the planner does not invent deadlines.
 - Responsive templates and static files served with WhiteNoise.
 
 ## Routes
@@ -77,4 +76,3 @@ Do not commit database URLs, passwords, or other secrets. Keep `DEBUG=False` in 
 - Django 5.2
 - PostgreSQL on Render; SQLite for local development
 - Gunicorn and WhiteNoise
-

@@ -40,16 +40,43 @@
         <div>
           <p class="term-label">TROY UNIVERSITY <span>·</span> HUST</p>
           <h1>Course resources</h1>
-          <p class="welcome">Browse the curriculum and open the community-maintained folder for each course.</p>
+          <p class="welcome">Browse the curriculum, add your own courses, and schedule sessions.</p>
         </div>
-        <a class="term-select" href="https://github.com/lcvp/troy-hust-university-resources" target="_blank" rel="noopener noreferrer">Source repository <span aria-hidden="true">↗</span></a>
+        <a class="term-select" href="{% url 'calendar' %}">View calendar <span aria-hidden="true">→</span></a>
       </div>
+
+      {% if messages %}
+        <div class="course-messages" role="status">
+          {% for message in messages %}<p class="{{ message.tags }}">{{ message }}</p>{% endfor %}
+        </div>
+      {% endif %}
+
+      <section class="personal-course-section" aria-labelledby="personal-courses-heading">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">YOUR STUDY PLAN</p>
+            <h2 id="personal-courses-heading">Add a custom course</h2>
+          </div>
+        </div>
+        <form class="personal-course-form" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="create_course">
+          {% for field in personal_course_form %}
+            <div class="form-field{% if field.name == 'prerequisites' %} form-wide{% endif %}">
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+              {% for error in field.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+            </div>
+          {% endfor %}
+          <button class="add-course-button" type="submit">Add course</button>
+        </form>
+      </section>
 
       <section class="courses-section" aria-labelledby="courses-heading">
         <div class="section-heading">
           <div>
             <p class="section-kicker">PROGRAM CURRICULUM</p>
-            <h2 id="courses-heading">Courses with resource folders</h2>
+            <h2 id="courses-heading">Courses</h2>
           </div>
           <span class="item-count">{{ courses|length }} courses</span>
         </div>
@@ -72,7 +99,40 @@
                   <span class="detail-label">PREREQUISITES</span>
                   <span>{{ course.prerequisites }}</span>
                 </div>
-                <a class="course-resource-link" href="{{ course.resources_url }}" target="_blank" rel="noopener noreferrer">Open course folder <span aria-hidden="true">↗</span></a>
+                {% if course.resources_url %}
+                  <a class="course-resource-link" href="{{ course.resources_url }}" target="_blank" rel="noopener noreferrer">Open course folder <span aria-hidden="true">↗</span></a>
+                {% else %}
+                  <span class="custom-course-label">Personal course</span>
+                {% endif %}
+                <details class="schedule-details"{% if schedule_error_key == course.schedule_key %} open{% endif %}>
+                  <summary>Schedule a session</summary>
+                  <form class="schedule-form" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="schedule_event">
+                    <input type="hidden" name="course_key" value="{{ course.schedule_key }}">
+                    <label>Event title
+                      <input type="text" name="title" maxlength="120" required value="{% if schedule_error_key == course.schedule_key %}{{ schedule_form.title.value|default:'' }}{% else %}{{ course.name }}{% endif %}">
+                    </label>
+                    <label>Date
+                      <input type="date" name="event_date" required value="{% if schedule_error_key == course.schedule_key %}{{ schedule_form.event_date.value|default:'' }}{% else %}{{ today_iso }}{% endif %}">
+                    </label>
+                    <label>Start
+                      <input type="time" name="start_time" value="{% if schedule_error_key == course.schedule_key %}{{ schedule_form.start_time.value|default:'' }}{% endif %}">
+                    </label>
+                    <label>End
+                      <input type="time" name="end_time" value="{% if schedule_error_key == course.schedule_key %}{{ schedule_form.end_time.value|default:'' }}{% endif %}">
+                    </label>
+                    <label class="schedule-description">Notes
+                      <input type="text" name="description" maxlength="240" value="{% if schedule_error_key == course.schedule_key %}{{ schedule_form.description.value|default:'' }}{% endif %}">
+                    </label>
+                    {% if schedule_error_key == course.schedule_key and schedule_form.errors %}
+                      <div class="schedule-errors" role="alert">
+                        {% for field, errors in schedule_form.errors.items %}{% for error in errors %}<span>{{ error }}</span>{% endfor %}{% endfor %}
+                      </div>
+                    {% endif %}
+                    <button type="submit">Add to calendar</button>
+                  </form>
+                </details>
               </div>
             </article>
           {% endfor %}

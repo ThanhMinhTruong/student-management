@@ -39,10 +39,16 @@
         <div>
           <p class="term-label">TROY UNIVERSITY <span>·</span> HUST</p>
           <h1>Study planner</h1>
-          <p class="welcome">Use this month view to plan around your course materials.</p>
+          <p class="welcome">Your scheduled course sessions and study time.</p>
         </div>
-        <span class="today-link">{{ month_name }}</span>
+        <a class="today-link" href="?month={{ today_month }}">Today</a>
       </div>
+
+      {% if messages %}
+        <div class="calendar-messages" role="status">
+          {% for message in messages %}<p class="{{ message.tags }}">{{ message }}</p>{% endfor %}
+        </div>
+      {% endif %}
 
       <section class="calendar-panel" aria-labelledby="month-heading">
         <div class="calendar-toolbar">
@@ -71,9 +77,18 @@
                   <span class="day-number">{{ day.number }}</span>
                   {% for event in day.events %}
                     <article class="calendar-event {{ event.accent }}">
-                      <span class="event-course">{{ event.course }}</span>
+                      <span class="event-course">{{ event.course_code }}</span>
                       <span class="event-title">{{ event.title }}</span>
-                      <span class="event-time">{{ event.time }}</span>
+                      {% if event.start_time %}
+                        <span class="event-time">{{ event.start_time|time:"g:i A" }}{% if event.end_time %} - {{ event.end_time|time:"g:i A" }}{% endif %}</span>
+                      {% else %}
+                        <span class="event-time">All day</span>
+                      {% endif %}
+                      {% if event.description %}<span class="event-description">{{ event.description }}</span>{% endif %}
+                      <form method="post" action="{% url 'delete_calendar_event' event.pk %}" class="delete-event-form">
+                        {% csrf_token %}
+                        <button type="submit" aria-label="Remove {{ event.title }}">×</button>
+                      </form>
                     </article>
                   {% endfor %}
                 </div>
@@ -85,9 +100,14 @@
         </div>
 
         <div class="calendar-notice">
-          <strong>No published deadlines</strong>
-          <p>The public resource repository contains course materials, not a verified deadline feed. Check each course's syllabus and module files for due dates.</p>
-          <a href="https://github.com/lcvp/troy-hust-university-resources" target="_blank" rel="noopener noreferrer">Browse course resources</a>
+          {% if event_count %}
+            <strong>{{ event_count }} scheduled event{{ event_count|pluralize }}</strong>
+            <p>Your personal course sessions are saved to your account and shown on the dates above.</p>
+          {% else %}
+            <strong>No events this month</strong>
+            <p>Add a session from any course card to see it here.</p>
+          {% endif %}
+          <a href="{% url 'courses' %}">Schedule a course session</a>
         </div>
       </section>
 
