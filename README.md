@@ -1,5 +1,5 @@
 # Troy / HUST Student Resource Hub
-
+SITE: https://student-management-wq1b.onrender.com
 An independent student resource hub for the Troy University program at Hanoi University of Science and Technology (HUST). It provides sign-in, a curated course catalog, links to student-maintained course materials, and a monthly study planner.
 
 This is not an official university service or the Canvas LMS. Course information and materials are maintained by the community. Verify course offerings, prerequisites, and deadlines with the program and current syllabi.
